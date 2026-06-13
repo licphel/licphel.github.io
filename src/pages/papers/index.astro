@@ -1,0 +1,133 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+
+const papers = await getCollection('papers');
+papers.sort((a, b) => b.data.year - a.data.year);
+
+const allTags = [...new Set(papers.flatMap(p => p.data.tags))].sort();
+---
+
+<Layout title="Papers" description="Paper notes and summaries by Licphel">
+  <div class="max-w-2xl">
+    <h1 class="page-heading">Papers</h1>
+    <p class="page-subtitle">Paper summaries, notes, and reading lists.</p>
+
+    <!-- Search + Tag filter -->
+    <div class="mb-5">
+      <div class="search-wrap mb-3">
+        <svg class="search-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+        </svg>
+        <input id="search-input" type="text" placeholder="Search papers…" class="search-input" autocomplete="off" spellcheck="false" />
+        <button id="clear-search" class="clear-btn hidden" aria-label="Clear search">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      {allTags.length > 0 && (
+        <div class="tag-filter-row" id="tag-filter">
+          {allTags.map(tag => (
+            <button class="tag-btn" data-tag={tag}>{tag}</button>
+          ))}
+        </div>
+      )}
+    </div>
+
+    <p class="results-count" id="results-count"></p>
+
+    {papers.length === 0 ? (
+      <div class="content-card text-center text-gray-400">
+        No papers yet. Check back soon!
+      </div>
+    ) : (
+      <div class="flex flex-col gap-4" id="cards-container">
+        {papers.map(paper => (
+          <a
+            href={`/papers/${paper.id}`}
+            class="list-card"
+            data-title={paper.data.title.toLowerCase()}
+            data-desc={(paper.data.authors + ' ' + (paper.data.venue ?? '')).toLowerCase()}
+            data-tags={paper.data.tags.join(',')}
+          >
+            <h3 class="text-base font-semibold mb-1 text-gray-900">{paper.data.title}</h3>
+            <p class="text-sm mb-2 text-gray-500">{paper.data.authors}</p>
+            <div class="flex items-center gap-3 flex-wrap">
+              <span class="meta-text">
+                {paper.data.venue && `${paper.data.venue} · `}{paper.data.year}
+              </span>
+              {paper.data.tags.map(t => (
+                <span class="tag">{t}</span>
+              ))}
+              {paper.data.notes && (
+                <span class="tag" style="background: rgba(16,185,129,0.08); color: #059669; border-color: rgba(16,185,129,0.15);">
+                  Notes
+                </span>
+              )}
+            </div>
+          </a>
+        ))}
+      </div>
+    )}
+
+    <div id="no-results" class="content-card text-center text-gray-400 hidden">
+      No papers match your search.
+    </div>
+  </div>
+</Layout>
+
+<script>
+  const searchInput = document.getElementById('search-input') as HTMLInputElement | null;
+  const clearBtn = document.getElementById('clear-search');
+  const tagBtns = document.querySelectorAll<HTMLButtonElement>('.tag-btn');
+  const cards = document.querySelectorAll<HTMLElement>('#cards-container .list-card');
+  const resultsCount = document.getElementById('results-count');
+  const noResults = document.getElementById('no-results');
+
+  let activeTag: string | null = null;
+
+  function filter() {
+    const query = searchInput?.value.toLowerCase().trim() ?? '';
+    clearBtn?.classList.toggle('hidden', !query);
+    let visible = 0;
+
+    cards.forEach(card => {
+      const title = card.dataset.title ?? '';
+      const desc = card.dataset.desc ?? '';
+      const tags = card.dataset.tags ? card.dataset.tags.split(',') : [];
+      const matchesSearch = !query || title.includes(query) || desc.includes(query);
+      const matchesTag = !activeTag || tags.includes(activeTag);
+      const show = matchesSearch && matchesTag;
+      (card as HTMLElement).style.display = show ? '' : 'none';
+      if (show) visible++;
+    });
+
+    if (resultsCount) {
+      resultsCount.textContent = (query || activeTag)
+        ? `Showing ${visible} of ${cards.length}`
+        : '';
+    }
+    noResults?.classList.toggle('hidden', visible > 0);
+  }
+
+  searchInput?.addEventListener('input', filter);
+
+  clearBtn?.addEventListener('click', () => {
+    if (searchInput) searchInput.value = '';
+    filter();
+  });
+
+  tagBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const tag = btn.dataset.tag ?? '';
+      if (activeTag === tag) {
+        activeTag = null;
+        btn.classList.remove('active');
+      } else {
+        activeTag = tag;
+        tagBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+      }
+      filter();
+    });
+  });
+</script>

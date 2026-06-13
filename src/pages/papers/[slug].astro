@@ -1,0 +1,51 @@
+---
+import { getCollection, render } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import PdfEmbed from '../../components/PdfEmbed.astro';
+
+export async function getStaticPaths() {
+  const papers = await getCollection('papers');
+  return papers.map(paper => ({
+    params: { slug: paper.id },
+    props: { paper },
+  }));
+}
+
+const { paper } = Astro.props;
+const { Content } = await render(paper);
+---
+
+<Layout title={paper.data.title} description={`Notes on ${paper.data.title}`}>
+  <article class="max-w-2xl">
+    <a href="/papers" class="back-link">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+      Papers
+    </a>
+
+    <header>
+      <h1>{paper.data.title}</h1>
+      <p class="meta-text mt-2">{paper.data.authors}</p>
+      <div class="flex items-center gap-3 mt-2 flex-wrap">
+        <span class="meta-text">
+          {paper.data.venue && `${paper.data.venue} · `}{paper.data.year}
+        </span>
+        {paper.data.tags.map(t => (
+          <span class="tag">{t}</span>
+        ))}
+        {paper.data.url && (
+          <a href={paper.data.url} target="_blank" rel="noopener noreferrer" class="tag no-underline">
+            Paper ↗
+          </a>
+        )}
+      </div>
+    </header>
+
+    <hr class="article-divider" />
+
+    {paper.data.pdf && (
+      <PdfEmbed src={`/papers/${paper.data.pdf}`} title={paper.data.title} />
+    )}
+
+    <Content />
+  </article>
+</Layout>

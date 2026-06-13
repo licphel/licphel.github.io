@@ -1,0 +1,128 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+
+const blogs = await getCollection('blogs', ({ data }) => !data.draft);
+blogs.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+
+const allTags = [...new Set(blogs.flatMap(b => b.data.tags))].sort();
+---
+
+<Layout title="Blogs" description="Blog posts by Licphel">
+  <div class="max-w-2xl">
+    <h1 class="page-heading">Blogs</h1>
+    <p class="page-subtitle">Notes on algorithms, machine learning, and computer science.</p>
+
+    <!-- Search + Tag filter -->
+    <div class="mb-5">
+      <div class="search-wrap mb-3">
+        <svg class="search-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+        </svg>
+        <input id="search-input" type="text" placeholder="Search posts…" class="search-input" autocomplete="off" spellcheck="false" />
+        <button id="clear-search" class="clear-btn hidden" aria-label="Clear search">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      {allTags.length > 0 && (
+        <div class="tag-filter-row" id="tag-filter">
+          {allTags.map(tag => (
+            <button class="tag-btn" data-tag={tag}>{tag}</button>
+          ))}
+        </div>
+      )}
+    </div>
+
+    <p class="results-count" id="results-count"></p>
+
+    {blogs.length === 0 ? (
+      <div class="content-card text-center text-gray-400">
+        No posts yet. Check back soon!
+      </div>
+    ) : (
+      <div class="flex flex-col gap-4" id="cards-container">
+        {blogs.map(post => (
+          <a
+            href={`/blogs/${post.id}`}
+            class="list-card"
+            data-title={post.data.title.toLowerCase()}
+            data-desc={(post.data.description ?? '').toLowerCase()}
+            data-tags={post.data.tags.join(',')}
+          >
+            <h3 class="text-base font-semibold mb-1 text-gray-900">{post.data.title}</h3>
+            <p class="text-sm mb-2 text-gray-500">{post.data.description}</p>
+            <div class="flex items-center gap-3 flex-wrap">
+              <time datetime={post.data.date.toISOString()} class="meta-text">
+                {post.data.date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+              </time>
+              {post.data.tags.map(t => (
+                <span class="tag">{t}</span>
+              ))}
+            </div>
+          </a>
+        ))}
+      </div>
+    )}
+
+    <div id="no-results" class="content-card text-center text-gray-400 hidden">
+      No posts match your search.
+    </div>
+  </div>
+</Layout>
+
+<script>
+  const searchInput = document.getElementById('search-input') as HTMLInputElement | null;
+  const clearBtn = document.getElementById('clear-search');
+  const tagBtns = document.querySelectorAll<HTMLButtonElement>('.tag-btn');
+  const cards = document.querySelectorAll<HTMLElement>('#cards-container .list-card');
+  const resultsCount = document.getElementById('results-count');
+  const noResults = document.getElementById('no-results');
+
+  let activeTag: string | null = null;
+
+  function filter() {
+    const query = searchInput?.value.toLowerCase().trim() ?? '';
+    clearBtn?.classList.toggle('hidden', !query);
+    let visible = 0;
+
+    cards.forEach(card => {
+      const title = card.dataset.title ?? '';
+      const desc = card.dataset.desc ?? '';
+      const tags = card.dataset.tags ? card.dataset.tags.split(',') : [];
+      const matchesSearch = !query || title.includes(query) || desc.includes(query);
+      const matchesTag = !activeTag || tags.includes(activeTag);
+      const show = matchesSearch && matchesTag;
+      (card as HTMLElement).style.display = show ? '' : 'none';
+      if (show) visible++;
+    });
+
+    if (resultsCount) {
+      resultsCount.textContent = (query || activeTag)
+        ? `Showing ${visible} of ${cards.length}`
+        : '';
+    }
+    noResults?.classList.toggle('hidden', visible > 0);
+  }
+
+  searchInput?.addEventListener('input', filter);
+
+  clearBtn?.addEventListener('click', () => {
+    if (searchInput) searchInput.value = '';
+    filter();
+  });
+
+  tagBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const tag = btn.dataset.tag ?? '';
+      if (activeTag === tag) {
+        activeTag = null;
+        btn.classList.remove('active');
+      } else {
+        activeTag = tag;
+        tagBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+      }
+      filter();
+    });
+  });
+</script>
