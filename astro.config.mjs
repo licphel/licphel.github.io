@@ -10,7 +10,7 @@ import rehypeKatex from 'rehype-katex';
 // https://astro.build/config
 export default defineConfig({
   site: 'https://licphel.github.io',
-  base: process.env.BASE_PATH || '/',
+  base: '/',
   devToolbar: { enabled: false },
   vite: {
     plugins: [tailwindcss()]
