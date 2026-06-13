@@ -16,6 +16,7 @@ const papers = defineCollection({
   loader: glob({ pattern: '**/index.{md,mdx}', base: './src/content/papers' }),
   schema: z.object({
     title: z.string(),
+    description: z.string().optional(),
     authors: z.string(),
     venue: z.string().optional(),
     year: z.number(),

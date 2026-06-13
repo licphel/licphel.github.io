@@ -99,7 +99,7 @@ body {
 .content-card li {
   font-family: var(--font-serif);
   color: #374151;
-  line-height: 1.6;
+  line-height: 1.2;
   font-size: 1.025rem;
 }
 
@@ -220,7 +220,7 @@ code {
   font-family: var(--font-serif);
   font-size: 0.9rem;
   color: #6b7280;
-  line-height: 1.5;
+  line-height: 1.2;
 }
 
 /* ===== Avatar ===== */
@@ -258,7 +258,7 @@ code {
 article {
   font-family: var(--font-serif);
   font-size: 1.075rem;
-  line-height: 1.72;
+  line-height: 1.2;
   color: #2d2d3a;
 }
 

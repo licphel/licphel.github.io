@@ -46,11 +46,16 @@ const allTags = [...new Set(papers.flatMap(p => p.data.tags))].sort();
             href={`/papers/${paper.id}`}
             class="list-card"
             data-title={paper.data.title.toLowerCase()}
-            data-desc={(paper.data.authors + ' ' + (paper.data.venue ?? '')).toLowerCase()}
+            data-desc={((paper.data.description ?? '') + ' ' + paper.data.authors + ' ' + (paper.data.venue ?? '')).toLowerCase()}
             data-tags={paper.data.tags.join(',')}
           >
             <h3 class="text-base font-semibold mb-1 text-gray-900">{paper.data.title}</h3>
-            <p class="text-sm mb-2 text-gray-500">{paper.data.authors}</p>
+            {paper.data.description && (
+              <p class="text-sm mb-1 text-gray-600">{paper.data.description}</p>
+            )}
+            {paper.data.authors && (
+              <p class="text-xs mb-2 text-gray-400">{paper.data.authors}</p>
+            )}
             <div class="flex items-center gap-3 flex-wrap">
               <span class="meta-text">
                 {paper.data.venue && `${paper.data.venue} · `}{paper.data.year}
