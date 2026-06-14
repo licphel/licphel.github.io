@@ -1,23 +1,9 @@
 ---
+import { getCollection } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
 
-interface Project {
-  name: string;
-  description: string;
-  url: string;
-  tags: string[];
-}
-
-const projects: Project[] = [
-  {
-    name: 'Licphel.github.io',
-    description: 'This personal homepage + blog, built with Astro and Tailwind CSS.',
-    url: 'https://github.com/licphel/licphel.github.io',
-    tags: ['Astro', 'Tailwind CSS', 'GitHub Pages'],
-  },
-];
-
-const allTags = [...new Set(projects.flatMap(p => p.tags))].sort();
+const projects = await getCollection('projects');
+const allTags = [...new Set(projects.flatMap(p => p.data.tags))].sort();
 ---
 
 <Layout title="Projects" description="Projects by Licphel">
@@ -55,20 +41,20 @@ const allTags = [...new Set(projects.flatMap(p => p.tags))].sort();
       <div class="flex flex-col gap-4" id="cards-container">
         {projects.map(p => (
           <a
-            href={p.url}
+            href={p.data.url}
             target="_blank"
             rel="noopener noreferrer"
             class="list-card"
-            data-title={p.name.toLowerCase()}
-            data-desc={p.description.toLowerCase()}
-            data-tags={p.tags.join(',')}
+            data-title={p.data.name.toLowerCase()}
+            data-desc={p.data.description.toLowerCase()}
+            data-tags={p.data.tags.join(',')}
           >
             <h3 class="text-base font-semibold mb-1 text-gray-900">
-              {p.name}
+              {p.data.name}
             </h3>
-            <p class="text-sm mb-2 text-gray-500">{p.description}</p>
+            <p class="text-sm mb-2 text-gray-500">{p.data.description}</p>
             <div class="flex items-center gap-2 flex-wrap">
-              {p.tags.map(t => (
+              {p.data.tags.map(t => (
                 <span class="tag">{t}</span>
               ))}
             </div>

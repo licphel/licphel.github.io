@@ -22,9 +22,19 @@ const papers = defineCollection({
     year: z.number(),
     tags: z.array(z.string()).default([]),
     url: z.string().optional(),
-    pdf: z.string().optional(),     // path to PDF in /papers/, e.g. "my-paper.pdf"
+    pdf: z.string().optional(),
     notes: z.boolean().default(false),
   }),
 });
 
-export const collections = { blogs, papers };
+const projects = defineCollection({
+  loader: glob({ pattern: '**/index.{md,mdx}', base: './src/content/projects' }),
+  schema: z.object({
+    name: z.string(),
+    description: z.string(),
+    url: z.string(),
+    tags: z.array(z.string()).default([]),
+  }),
+});
+
+export const collections = { blogs, papers, projects };

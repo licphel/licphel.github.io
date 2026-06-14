@@ -38,9 +38,9 @@ body {
   overflow: hidden;
 }
 
-/* Sidebar brand — serif for elegance */
+/* Sidebar brand — clean sans-serif */
 .sidebar-brand {
-  font-family: var(--font-serif);
+  font-family: var(--font-sans);
   font-size: 1.35rem;
   font-weight: 700;
   color: #e2e8f0;
@@ -48,7 +48,7 @@ body {
 }
 
 .sidebar-subtitle {
-  font-family: var(--font-serif);
+  font-family: var(--font-sans);
   font-size: 0.75rem;
   color: rgba(255, 255, 255, 0.45);
 }
