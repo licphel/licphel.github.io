@@ -1,0 +1,52 @@
+<p>Gradient descent is the workhorse of modern machine learning. Understanding its variants is essential for training neural networks effectively.</p>
+
+<h2>Batch Gradient Descent</h2>
+
+<p><code>θₜ₊₁ = θₜ − η∇θJ(θₜ)</code></p>
+
+<p>Uses the <strong>entire dataset</strong> to compute the gradient. Guaranteed to converge to a local minimum for convex problems, but very slow for large datasets.</p>
+
+<h2>Stochastic Gradient Descent (SGD)</h2>
+
+<p><code>θₜ₊₁ = θₜ − η∇θJ(θₜ; x⁽ⁱ⁾, y⁽ⁱ⁾)</code></p>
+
+<p>Updates parameters using <strong>one sample</strong> at a time. Very noisy but fast. The noise can actually help escape shallow local minima.</p>
+
+<h2>Mini-batch SGD</h2>
+
+<p><code>θₜ₊₁ = θₜ − η(1/B)Σᵢ₌₁ᴮ∇θJ(θₜ; x⁽ⁱ⁾, y⁽ⁱ⁾)</code></p>
+
+<p>The sweet spot — uses a batch of <code>B</code> samples (typically 32–256). Balances gradient accuracy with computation speed. Scales well to GPUs.</p>
+
+<h2>SGD with Momentum</h2>
+
+<pre><code>vₜ₊₁ = βvₜ + η∇θJ(θₜ)
+θₜ₊₁ = θₜ − vₜ₊₁</code></pre>
+
+<p>Accumulates a velocity vector — dampens oscillations and accelerates in consistent directions. <code>β ≈ 0.9</code>.</p>
+
+<h2>Adam (Adaptive Moment Estimation)</h2>
+
+<p>Combines momentum with adaptive learning rates per parameter:</p>
+
+<pre><code>mₜ = β₁mₜ₋₁ + (1 − β₁)gₜ
+vₜ = β₂vₜ₋₁ + (1 − β₂)gₜ²
+m̂ₜ = mₜ / (1 − β₁ᵗ)
+v̂ₜ = vₜ / (1 − β₂ᵗ)
+θₜ₊₁ = θₜ − η m̂ₜ / (√v̂ₜ + ε)</code></pre>
+
+<p>Default choice for most deep learning tasks today. Works well out of the box with default hyperparameters (<code>β₁=0.9</code>, <code>β₂=0.999</code>, <code>η=0.001</code>).</p>
+
+<h2>Quick comparison</h2>
+
+<table>
+  <thead>
+    <tr><th>Optimizer</th><th>Adaptive LR</th><th>Momentum</th><th>Best for</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>SGD</td><td>No</td><td>No</td><td>Baselines, fine-tuning</td></tr>
+    <tr><td>SGD + Momentum</td><td>No</td><td>Yes</td><td>Vision tasks</td></tr>
+    <tr><td>Adam</td><td>Yes</td><td>Yes</td><td>Default choice</td></tr>
+    <tr><td>AdamW</td><td>Yes</td><td>Yes</td><td>Transformers, LLMs</td></tr>
+  </tbody>
+</table>

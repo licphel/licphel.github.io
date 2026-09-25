@@ -1,0 +1,11 @@
+body {
+  line-height: 1.25;
+}
+
+.tags .tag + .tag {
+  margin-left: 0.6em;
+}
+
+#site-nav a + a {
+  margin-left: 1em;
+}

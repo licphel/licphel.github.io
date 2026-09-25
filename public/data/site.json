@@ -1,0 +1,53 @@
+{
+  "name": "Licphel",
+  "avatar": "avatar.jpg",
+  "profileLines": [
+    "Nanjing University · Computer Science",
+    "Former Minecraft Modder · Independent Game Developer"
+  ],
+  "about": [
+    "Hi! I'm Licphel. I'm passionate about algorithms, machine learning, and building systems.",
+    "This site is where I share my notes, papers, and projects.",
+    "Currently exploring LLM agent systems and agent harness."
+  ],
+  "education": [
+    {
+      "period": "2025.09 ~ Now",
+      "text": "Nanjing University Undergraduate"
+    }
+  ],
+  "awards": [
+    {
+      "date": "2026.04",
+      "text": "NJU Programming Contest Div.2 - 4th (Golden Medal)"
+    },
+    {
+      "date": "2026.06",
+      "link": {
+        "label": "Netease Mini-game 2026",
+        "url": "https://game.academy.163.com/event/mg2026/mg2026"
+      },
+      "suffix": " - Preliminary 28th (Top ~10%)"
+    }
+  ],
+  "research": [
+    {
+      "period": "2026.03 ~ Now",
+      "prefix": "Research intern at ",
+      "link": {
+        "label": "THUNLP",
+        "url": "https://nlp.csai.tsinghua.edu.cn/"
+      },
+      "suffix": ", Tsinghua University"
+    }
+  ],
+  "interests": "Computer Graphics · LLM Agents · Machine Learning · Deep Learning · NLP · Reinforcement Learning · Compilers",
+  "navigation": [
+    { "label": "Home", "url": "#home" },
+    { "label": "Blogs", "url": "#blogs" },
+    { "label": "Papers", "url": "#papers" },
+    { "label": "Projects", "url": "#projects" },
+    { "label": "GitHub", "url": "https://github.com/licphel" }
+  ],
+  "footer": "© Licphel"
+}

@@ -1,0 +1,26 @@
+[
+  {
+    "slug": "hello-world",
+    "title": "Hello, World",
+    "description": "Welcome to my blog — notes on algorithms, ML, and computer science.",
+    "date": "2026-06-13",
+    "tags": ["meta", "welcome"],
+    "content": "data/blogs/hello-world.html"
+  },
+  {
+    "slug": "algorithms-merge-sort",
+    "title": "Merge Sort: Divide and Conquer",
+    "description": "A deep dive into merge sort — analysis, implementation, and intuition behind the divide-and-conquer paradigm.",
+    "date": "2026-06-10",
+    "tags": ["algorithms", "sorting", "divide-and-conquer"],
+    "content": "data/blogs/algorithms-merge-sort.html"
+  },
+  {
+    "slug": "ml-gradient-descent",
+    "title": "Gradient Descent Variants: SGD, Momentum, Adam",
+    "description": "An overview of gradient-based optimization algorithms used in modern deep learning.",
+    "date": "2026-06-05",
+    "tags": ["machine-learning", "optimization", "deep-learning"],
+    "content": "data/blogs/ml-gradient-descent.html"
+  }
+]
