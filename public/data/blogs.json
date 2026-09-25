@@ -1,13 +1,5 @@
 [
   {
-    "slug": "hello-world",
-    "title": "Hello, World",
-    "description": "Welcome to my blog — notes on algorithms, ML, and computer science.",
-    "date": "2026-06-13",
-    "tags": ["meta", "welcome"],
-    "content": "data/blogs/hello-world.html"
-  },
-  {
     "slug": "algorithms-merge-sort",
     "title": "Merge Sort: Divide and Conquer",
     "description": "A deep dive into merge sort — analysis, implementation, and intuition behind the divide-and-conquer paradigm.",

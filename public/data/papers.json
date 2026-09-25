@@ -1,5 +1,18 @@
 [
   {
+    "slug": "perdura",
+    "title": "Perdura: Stateful Code Execution Harness For Long-Horizon Agents",
+    "authors": "",
+    "venue": "",
+    "year": 2026,
+    "tags": ["LLM Agent, State, Long-horizon Agent"],
+    "url": "",
+    "pdf": "",
+    "notes": false,
+    "description": "Long-horizon agents must generate code, invoke tools, and incorporate feedback across extended tasks. Many existing harnesses leave part of this execution continuity in the model-visible interaction history, requiring the model to recover prior outcomes, available computational state, and unfinished work as trajectories grow. We propose PERDURA, a stateful execution harness that makes the division of responsibility between the model and runtime explicit. The model expresses executable actions through a Python interface, while the runtime preserves computational state, execution evidence, and unfinished work across steps. Perdura presents bounded views of this state to the model, continues from updated state after a wait, and restores recoverable state after process loss.",
+    "content": ""
+  },
+  {
     "slug": "mpa",
     "title": "Multi-Pivot Attribution: Attributing Distributed Privacy Leaks in LLM Agent Trajectories",
     "authors": "",
