@@ -6,6 +6,6 @@ body {
   margin-left: 0.6em;
 }
 
-#site-nav a + a {
+#site-nav > * + * {
   margin-left: 1em;
 }

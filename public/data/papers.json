@@ -9,7 +9,7 @@
     "url": "",
     "pdf": "",
     "notes": false,
-    "description": "Long-horizon agents must generate code, invoke tools, and incorporate feedback across extended tasks. Many existing harnesses leave part of this execution continuity in the model-visible interaction history, requiring the model to recover prior outcomes, available computational state, and unfinished work as trajectories grow. We propose PERDURA, a stateful execution harness that makes the division of responsibility between the model and runtime explicit. The model expresses executable actions through a Python interface, while the runtime preserves computational state, execution evidence, and unfinished work across steps. Perdura presents bounded views of this state to the model, continues from updated state after a wait, and restores recoverable state after process loss.",
+    "description": "Long-horizon agents must generate code, invoke tools, and incorporate feedback across extended tasks. Many existing harnesses leave part of this execution continuity in the model-visible interaction history, requiring the model to recover prior outcomes, available computational state, and unfinished work as trajectories grow. We propose PERDURA, a stateful execution harness that makes the division of responsibility between the model and runtime explicit. The model expresses executable actions through a Python interface, while the runtime preserves computational state, execution evidence, and unfinished work across steps. Perdura presents bounded views of this state to the model, continues from updated state after a wait, and restores recoverable state after process loss... [TBD]",
     "content": ""
   },
   {
@@ -24,17 +24,5 @@
     "notes": false,
     "description": "Privacy violations in LLM agent trajectories often arise through distributed information flow: multiple individually benign steps that collectively leak sensitive data, with no single step bearing full responsibility. We formalize this as a post-violation attribution problem and propose Multi-Pivot Attribution (MPA), a method that selects multiple trajectory steps for sanitization using context-aware risk scoring and greedy ranking. We benchmark five strategies spanning a safety-cost Pareto frontier—from single-pivot to full sanitization—on 180 agent trajectories with step-level violation labels. Results show that multi-pivot strategies substantially outperform single-pivot, and one variant achieves strong coverage at a fraction of the cost of full sanitization. The framework is model-agnostic and fully reproducible.",
     "content": "data/papers/mpa.html"
-  },
-  {
-    "slug": "pixtopo",
-    "title": "PixelTopo-Gen: Teaching Pure-Text LLMs to Understand Space by Generating 0/1 Pixel Art",
-    "authors": "",
-    "venue": "",
-    "year": 2026,
-    "tags": ["NLP", "LoRA", "LLM Interpretability"],
-    "url": "",
-    "notes": false,
-    "description": "Recent work (Vision Banana) has demonstrated that visual generation models can \"understand\" by generating RGB images—proving that their ability to create accurate visual content reflects genuine visual comprehension. This raises a dual question for pure-text large language models (LLMs): Can they demonstrate spatial understanding by generating 0/1 pixel art, the simplest possible representation of 2D space?",
-    "content": "data/papers/pixtopo.html"
   }
 ]

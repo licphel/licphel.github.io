@@ -59,7 +59,11 @@ function renderNavigation(site) {
   document.querySelector(".site-title").textContent = site.name;
   navigation.replaceChildren();
   for (const item of site.navigation) {
-    navigation.append(link(item.label, item.url));
+    if (item.url) {
+      navigation.append(link(item.label, item.url));
+    } else {
+      navigation.append(element("span", item.label));
+    }
   }
   footer.textContent = site.footer || "";
 }
@@ -79,12 +83,13 @@ function renderHome() {
     "About Me",
     site.about.map((paragraph) => element("p", paragraph)),
   );
-  const education = section("Education", [entryList(site.education)]);
-  const awards = section("Contests & Awards", [entryList(site.awards)]);
-  const research = section("Research Experiences", [entryList(site.research)]);
+  const education = section("Education", [entryList(content.education)]);
+  const awards = section("Contests & Awards", [entryList(content.awards)]);
+  const research = section("Research Experiences", [entryList(content.research)]);
   const interests = section("Interests", [element("p", site.interests)]);
+  const collaborators = renderCollaborators();
 
-  app.replaceChildren(profile, about, education, awards, research, interests);
+  app.replaceChildren(profile, about, education, awards, research, interests, collaborators);
 }
 
 function collectionMeta(item, kind) {
@@ -166,6 +171,74 @@ function renderProjects() {
   app.replaceChildren(element("h1", "Projects"), element("p", "Things I've built and worked on."), list);
 }
 
+function authorNames(authors) {
+  if (Array.isArray(authors)) return authors;
+  if (typeof authors !== "string" || !authors.trim()) return [];
+  return authors.split(/\s*(?:,|;|，|、|\band\b)\s*/i);
+}
+
+function renderCollaborators() {
+  const collaborators = new Map();
+  const ownName = content.site.name.trim().toLocaleLowerCase();
+
+  function add(raw, count = 0, increment = false) {
+    const person = typeof raw === "string" ? { name: raw } : raw || {};
+    const name = typeof person.name === "string"
+      ? person.name.replace(/[,;，、]+$/u, "").trim()
+      : "";
+    const key = name.toLocaleLowerCase();
+    if (!name || key === ownName) return;
+
+    const current = collaborators.get(key) || {
+      name,
+      count: 0,
+      url: "",
+    };
+    const value = Number(count) || 0;
+    current.count = increment
+      ? current.count + value
+      : Math.max(current.count, value);
+    if (person.url) current.url = person.url;
+    collaborators.set(key, current);
+  }
+
+  for (const paper of content.papers) {
+    const authors = new Set(
+      authorNames(paper.authors)
+        .map((author) => (typeof author === "string" ? author.trim() : ""))
+        .filter(Boolean),
+    );
+    for (const author of authors) add(author, 1, true);
+  }
+  for (const person of content.collaborators || []) {
+    if (typeof person === "string") {
+      for (const name of authorNames(person)) add(name, 1);
+    } else {
+      add(person, person.count ?? 1);
+    }
+  }
+
+  const sorted = [...collaborators.values()].sort(
+    (a, b) => b.count - a.count || a.name.localeCompare(b.name),
+  );
+  const body = element("div");
+  if (!sorted.length) {
+    body.append(element("p", "No collaborators listed yet."));
+  } else {
+    const list = element("ol");
+    for (const person of sorted) {
+      const row = element("li");
+      row.append(person.url ? link(person.name, person.url) : person.name);
+      row.append(
+        ` , ${person.count} times`,
+      );
+      list.append(row);
+    }
+    body.append(list);
+  }
+  return section("Collaborators", [body]);
+}
+
 async function renderDetail(kind, slug) {
   const items = kind === "blog" ? content.blogs : content.papers;
   const item = items.find((entry) => entry.slug === slug);
@@ -221,6 +294,10 @@ async function renderRoute() {
 async function start() {
   content = {
     site: await readJson("data/site.json"),
+    education: await readJson("data/education.json"),
+    awards: await readJson("data/awards.json"),
+    research: await readJson("data/research.json"),
+    collaborators: await readJson("data/collaborators.json"),
     blogs: await readJson("data/blogs.json"),
     papers: await readJson("data/papers.json"),
     projects: await readJson("data/projects.json"),
