@@ -1,20 +1,38 @@
 [
   {
+    "name": "Revery Effect",
+    "description": "An open-source 2D sandbox with a story-driven campaign and a single-player or multiplayer sandbox mode. Explore an endless world, uncover lost civilizations, gather resources, build, fight, automate, and expand the game itself through modding.",
+    "url": "https://github.com/licphel/revery-effect",
+    "tags": ["Java", "Game", "Sandbox"]
+  },
+  {
+    "name": "Ntopia",
+    "description": "Online forum Ntopia source codes, featuring user system and posting system (messaging, commenting, following, likes, stars, posts, permission, etc.).",
+    "url": "https://github.com/licphel/Ntopia",
+    "tags": ["Frontend", "Web", "ExpressJS", "DB", "Backend"]
+  },
+  {
     "name": "LLMe",
-    "description": "Classic transformer built with Pytorch from scratch, feasible for personal computer.",
+    "description": "Classic transformer and MoE architecture built with Pytorch from scratch, feasible for personal computer.",
     "url": "https://github.com/licphel/llme",
     "tags": ["Deep Learning", "Machine Learning", "Pytorch", "Hugging Face", "LLM"]
   },
   {
     "name": "Momentum",
-    "description": "An extensible java application framework, including GFX, audio, network, resource, AI, codec, etc.",
+    "description": "Backend-agnostic, pluggable and hi-performance game development framework for Java. Ready-to-use 2D graphics, ui, audio, and other convenient features!",
     "url": "https://github.com/licphel/momentum",
     "tags": ["Computer Graphics", "Java", "Game Framework"]
   },
   {
+    "name": "Technical Engineering 4",
+    "description": "A Minecraft tech-mod, featuring logistics and convenient device.",
+    "url": "https://github.com/licphel/technical-engineering-4",
+    "tags": ["Java", "Minecraft Mod", "Network"]
+  },
+  {
     "name": "Perdura",
-    "description": "A CodeAct ReAct Agent framework — execution engine, kernel, and HTTP server. PyLM runs LLM-driven AI agents in isolated sandboxes. Each agent reasons and acts by writing and executing Python code (CodeAct paradigm), with support for sub-agents, tool calls, async channels, and task scheduling..",
+    "description": "[Collaborated] Long-horizon agents must generate code, invoke tools, and incorporate feedback across extended tasks. Many existing harnesses leave part of this execution continuity in the model-visible interaction history, requiring the model to recover prior outcomes, available computational state, and unfinished work as trajectories grow. We propose Perdura, a stateful execution harness that makes the division of responsibility between the model and runtime explicit. The model expresses executable actions through a Python interface, while the runtime preserves persistent computational state, durable execution evidence, and unfinished work across steps, exposing only bounded state projections to the model and restoring committed state after waiting or interruption.",
     "url": "https://github.com/R0k1e/PyReduce",
-    "tags": ["LLM Agent"]
+    "tags": ["LLM Agent", "Long-Horizon", "Harness", "Research"]
   }
 ]

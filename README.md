@@ -8,7 +8,10 @@ require a build step or a JavaScript framework.
 
 - `public/index.html` is the page shell.
 - `public/script.js` loads the content and renders hash-based routes.
-- `public/data/site.json` contains the personal introduction and navigation.
+- `public/data/site.json` contains the personal introduction, navigation, and
+  creation date. The footer's last-edited date is generated automatically from
+  resource modification times when available.
+- `public/data/news.json` contains homepage news items.
 - `public/data/education.json`, `public/data/awards.json`, and
   `public/data/research.json` contain the corresponding homepage sections.
 - `public/data/collaborators.json` contains manually listed collaborators;

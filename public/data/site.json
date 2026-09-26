@@ -9,6 +9,7 @@
     "Currently exploring LLM agent systems and agent harness."
   ],
   "interests": "Computer Graphics · Software Engineering · LLM Agents · Machine Learning · NLP · Compilers",
+  "createdAt": "2026-09-26",
   "navigation": [
     { "label": "Home", "url": "#home" },
     { "label": "Blogs", "url": "#blogs" },
@@ -17,5 +18,5 @@
     { "label": "GitHub", "url": "https://github.com/licphel" },
     { "label": "Google Scholar", "url": "" }
   ],
-  "footer": "© Licphel. Created at: 26/09/2026. Last edited: 26/09/2026"
+  "footer": "© Licphel"
 }

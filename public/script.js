@@ -3,11 +3,17 @@ const navigation = document.querySelector("#site-nav");
 const footer = document.querySelector("#site-footer");
 
 let content;
+const resourceModifiedDates = [];
 
 async function readJson(path) {
   const response = await fetch(path);
   if (!response.ok) {
     throw new Error(`Could not load ${path} (${response.status})`);
+  }
+  const lastModified = response.headers.get("last-modified");
+  if (lastModified) {
+    const date = new Date(lastModified);
+    if (!Number.isNaN(date.valueOf())) resourceModifiedDates.push(date);
   }
   return response.json();
 }
@@ -30,7 +36,8 @@ function link(label, href) {
 
 function appendParts(parent, item) {
   if (item.prefix) parent.append(item.prefix);
-  if (item.link) parent.append(link(item.link.label, item.link.url));
+  if (item.link?.url) parent.append(link(item.link.label, item.link.url));
+  else if (item.link?.label) parent.append(item.link.label);
   if (item.text) parent.append(item.text);
   if (item.suffix) parent.append(item.suffix);
 }
@@ -55,6 +62,61 @@ function entryList(items) {
   return list;
 }
 
+function newsList(items) {
+  const list = element("ul");
+  for (const item of items) {
+    const row = element("li");
+    if (item.label) row.append(element("strong", `${item.label} `));
+    appendParts(row, item);
+    list.append(row);
+  }
+  return list;
+}
+
+function parseDate(value) {
+  if (/^\d{4}-\d{2}-\d{2}$/.test(value)) {
+    const [year, month, day] = value.split("-").map(Number);
+    return new Date(year, month - 1, day);
+  }
+  return new Date(value);
+}
+
+function formatDate(value) {
+  const date = parseDate(value);
+  if (Number.isNaN(date.valueOf())) return "";
+  return new Intl.DateTimeFormat("en-GB", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+  }).format(date);
+}
+
+function latestEditedDate() {
+  const dates = [...resourceModifiedDates];
+  const documentDate = parseDate(document.lastModified);
+  if (!Number.isNaN(documentDate.valueOf())) dates.push(documentDate);
+  return dates.length
+    ? new Date(Math.max(...dates.map((date) => date.valueOf())))
+    : new Date();
+}
+
+function tagList(tags, wrapper = "span") {
+  const group = element(wrapper);
+  group.className = "tags";
+  const names = (tags || []).flatMap((tag) =>
+    typeof tag === "string"
+      ? tag.split(",").map((name) => name.trim()).filter(Boolean)
+      : [],
+  );
+  names.forEach((name, index) => {
+    if (index > 0) group.append(", ");
+    const label = element("span", name);
+    label.className = "tag";
+    group.append(label);
+  });
+  return group;
+}
+
 function renderNavigation(site) {
   document.querySelector(".site-title").textContent = site.name;
   navigation.replaceChildren();
@@ -65,7 +127,10 @@ function renderNavigation(site) {
       navigation.append(element("span", item.label));
     }
   }
-  footer.textContent = site.footer || "";
+  const footerParts = [site.footer || `© ${site.name}`];
+  if (site.createdAt) footerParts.push(`Created at: ${formatDate(site.createdAt)}`);
+  footerParts.push(`Last edited: ${formatDate(latestEditedDate())}`);
+  footer.textContent = footerParts.join(". ");
 }
 
 function renderHome() {
@@ -83,13 +148,14 @@ function renderHome() {
     "About Me",
     site.about.map((paragraph) => element("p", paragraph)),
   );
+  const news = section("News", [newsList(content.news)]);
   const education = section("Education", [entryList(content.education)]);
-  const awards = section("Contests & Awards", [entryList(content.awards)]);
-  const research = section("Research Experiences", [entryList(content.research)]);
+  const awards = section("Awards", [entryList(content.awards)]);
+  const research = section("Research", [entryList(content.research)]);
   const interests = section("Interests", [element("p", site.interests)]);
   const collaborators = renderCollaborators();
 
-  app.replaceChildren(profile, about, education, awards, research, interests, collaborators);
+  app.replaceChildren(profile, about, news, education, awards, research, interests, collaborators);
 }
 
 function collectionMeta(item, kind) {
@@ -104,14 +170,7 @@ function collectionMeta(item, kind) {
     meta.append(String(item.year));
   }
   if (item.tags?.length) {
-    const tags = element("span");
-    tags.className = "tags";
-    for (const tag of item.tags) {
-      const label = element("span", tag);
-      label.className = "tag";
-      tags.append(label);
-    }
-    meta.append(" · ", tags);
+    meta.append(" · ", tagList(item.tags));
   }
   return meta;
 }
@@ -157,14 +216,7 @@ function renderProjects() {
     item.querySelector("h2").append(link(project.name, project.url));
     item.append(element("p", project.description));
     if (project.tags?.length) {
-      const tags = element("p");
-      tags.className = "tags";
-      for (const tag of project.tags) {
-        const label = element("span", tag);
-        label.className = "tag";
-        tags.append(label);
-      }
-      item.append(tags);
+      item.append(tagList(project.tags, "p"));
     }
     list.append(item);
   }
@@ -294,6 +346,7 @@ async function renderRoute() {
 async function start() {
   content = {
     site: await readJson("data/site.json"),
+    news: await readJson("data/news.json"),
     education: await readJson("data/education.json"),
     awards: await readJson("data/awards.json"),
     research: await readJson("data/research.json"),

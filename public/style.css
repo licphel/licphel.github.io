@@ -1,9 +1,22 @@
 body {
   line-height: 1.2;
+
 }
 
-.tags .tag + .tag {
-  margin-left: 0.6em;
+h1 {
+  font-size: 1.5rem;
+}
+
+h2 {
+  font-size: 1.2rem;
+}
+
+h3 {
+  font-size: 1.05rem;
+}
+
+h4 {
+  font-size: 1rem;
 }
 
 #site-nav > * + * {

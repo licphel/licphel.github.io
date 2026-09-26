@@ -2,14 +2,14 @@
   {
     "slug": "perdura",
     "title": "Perdura: Stateful Code Execution Harness For Long-Horizon Agents",
-    "authors": "",
+    "authors": "Haoyu Wang, Zhen Wang, Hanqing Wang, Zhiyu Yang, Kaichen Huang, Shuo Wang, Bo An",
     "venue": "",
     "year": 2026,
-    "tags": ["LLM Agent, State, Long-horizon Agent"],
-    "url": "",
+    "tags": ["LLM Agent", "State", "Long-horizon Agent"],
+    "url": "data/papers/perdura.html",
     "pdf": "",
     "notes": false,
-    "description": "Long-horizon agents must generate code, invoke tools, and incorporate feedback across extended tasks. Many existing harnesses leave part of this execution continuity in the model-visible interaction history, requiring the model to recover prior outcomes, available computational state, and unfinished work as trajectories grow. We propose PERDURA, a stateful execution harness that makes the division of responsibility between the model and runtime explicit. The model expresses executable actions through a Python interface, while the runtime preserves computational state, execution evidence, and unfinished work across steps. Perdura presents bounded views of this state to the model, continues from updated state after a wait, and restores recoverable state after process loss... [TBD]",
+    "description": "Long-horizon agents must generate code, invoke tools, and incorporate feedback across extended tasks. Many existing harnesses leave part of this execution continuity in the model-visible interaction history, requiring the model to recover prior outcomes, available computational state, and unfinished work as trajectories grow. We propose Perdura, a stateful execution harness that makes the division of responsibility between the model and runtime explicit. The model expresses executable actions through a Python interface, while the runtime preserves persistent computational state, durable execution evidence, and unfinished work across steps, exposing only bounded state projections to the model and restoring committed state after waiting or interruption.",
     "content": ""
   },
   {
@@ -19,7 +19,7 @@
     "venue": "",
     "year": 2026,
     "tags": ["LLM Agent"],
-    "url": "",
+    "url": "data/papers/mpa.html",
     "pdf": "papers/mpa.pdf",
     "notes": false,
     "description": "Privacy violations in LLM agent trajectories often arise through distributed information flow: multiple individually benign steps that collectively leak sensitive data, with no single step bearing full responsibility. We formalize this as a post-violation attribution problem and propose Multi-Pivot Attribution (MPA), a method that selects multiple trajectory steps for sanitization using context-aware risk scoring and greedy ranking. We benchmark five strategies spanning a safety-cost Pareto frontier—from single-pivot to full sanitization—on 180 agent trajectories with step-level violation labels. Results show that multi-pivot strategies substantially outperform single-pivot, and one variant achieves strong coverage at a fraction of the cost of full sanitization. The framework is model-agnostic and fully reproducible.",
