@@ -1,5 +1,18 @@
 [
   {
+    "slug": "invertible-conditionals",
+    "title": "Invertible Conditionals, Directional Execution: A Bidirectional Study of Autoregressive Models",
+    "authors": "Zhen Wang",
+    "venue": "",
+    "year": 2026,
+    "tags": ["Autoregressive Models", "Generative Inference", "Visual Reasoning"],
+    "url": "data/papers/invertible-conditionals.html",
+    "pdf": "papers/invertible-conditionals.pdf",
+    "notes": false,
+    "description": "We study how training one direction of a structured relation changes the ability to solve its inverse. Across text-serialized tasks, ASCIIEval, and a tokenized-image model, candidate search can accurately invert a learned conditional while the model's native opposite-direction predictions remain weak.",
+    "content": "data/papers/invertible-conditionals.html"
+  },
+  {
     "slug": "perdura",
     "title": "Perdura: Stateful Code Execution Harness For Long-Horizon Agents",
     "authors": "Haoyu Wang, Zhen Wang, Hanqing Wang, Zhiyu Yang, Kaichen Huang, Shuo Wang, Bo An",
@@ -15,7 +28,7 @@
   {
     "slug": "mpa",
     "title": "Multi-Pivot Attribution: Attributing Distributed Privacy Leaks in LLM Agent Trajectories",
-    "authors": "",
+    "authors": "Zhen Wang",
     "venue": "",
     "year": 2026,
     "tags": ["LLM Agent"],

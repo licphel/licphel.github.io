@@ -1,5 +1,23 @@
 [
   {
+    "label": "11/25/2026",
+    "prefix": "New manuscript available: ",
+    "link": {
+      "label": "Invertible Conditionals, Directional Execution",
+      "url": "#paper/invertible-conditionals"
+    },
+    "suffix": "."
+  },
+  {
+    "label": "11/25/2026",
+    "prefix": "Updated manuscript: ",
+    "link": {
+      "label": "Multi-Pivot Attribution",
+      "url": "#paper/mpa"
+    },
+    "suffix": "."
+  },
+  {
     "label": "09/26/2026",
     "prefix": "Our paper ",
     "link": {
